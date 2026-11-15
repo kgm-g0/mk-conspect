@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="resources/smart_electronics.png" type="image/png">
+<title>Кто кого? - В. П. Терин</title>
+<style>
+  :root{
+    --bg:#F7F7F5;
+    --ink:#2B2B2B;
+    --muted:#6B6B6B;
+    --line:#1F3A5F;
+    --line-bg:#EEF2F7;
+    --net:#2A9D8F;
+    --net-soft:#E76F51;
+    --net-bg:#EAF6F3;
+    --paper:#FFFFFF;
+    --radius:16px;
+    --shadow:0 6px 24px rgba(31,58,95,.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  .poster{
+    max-width:980px;
+    margin:0 auto;
+    padding:40px 24px 72px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    grid-template-areas:"left title right";
+    align-items:center;
+    gap:16px;
+    padding:28px 24px;
+    background:var(--paper);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    margin-bottom:28px;
+  }
+  .hero .side{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    font-size:12px;color:var(--muted);
+    text-transform:uppercase;letter-spacing:.1em;
+  }
+  .hero .side-left{grid-area:left;}
+  .hero .side-right{grid-area:right;}
+  .hero .side svg{width:48px;height:48px;flex:none;}
+  .hero .title{grid-area:title;text-align:center;}
+  .hero h1{
+    margin:0;
+    font-size:clamp(28px,4vw,44px);
+    letter-spacing:.02em;
+    color:var(--line);
+    line-height:1.1;
+  }
+  .hero .sub{
+    margin-top:8px;
+    font-size:clamp(13px,1.6vw,16px);
+    color:var(--muted);
+  }
+  .hero .q{
+    display:inline-block;
+    margin-top:10px;
+    padding:3px 12px;
+    border-radius:999px;
+    background:var(--net-soft);
+    color:#fff;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section{
+    background:var(--paper);
+    border-radius:var(--radius);
+    padding:24px 24px 22px;
+    box-shadow:var(--shadow);
+    margin-bottom:24px;
+  }
+  .kicker{
+    display:inline-block;
+    font-size:12px;text-transform:uppercase;letter-spacing:.1em;
+    color:var(--net);font-weight:600;margin-bottom:6px;
+  }
+  .kicker.line{color:var(--line);}
+  .kicker.accent{color:var(--net-soft);}
+  h2{
+    margin:0 0 16px;
+    font-size:clamp(18px,2.2vw,22px);
+    color:var(--line);line-height:1.2;
+  }
+  p{margin:0 0 10px;font-size:15px;}
+  .muted{color:var(--muted);}
+
+  /* ---------- KODY ---------- */
+  .kody{
+    display:grid;
+    grid-template-columns:72px 1fr;
+    gap:18px;
+    align-items:center;
+  }
+  .kody .icon{
+    width:72px;height:72px;border-radius:16px;
+    background:linear-gradient(135deg,var(--line),var(--net));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:30px;font-family:monospace;
+  }
+
+  /* ---------- COMPARE ---------- */
+  .compare{
+    display:grid;
+    grid-template-columns:1fr 56px 1fr;
+    gap:14px;
+    align-items:stretch;
+  }
+  .col{border-radius:14px;padding:18px 18px 14px;}
+  .col h3{
+    margin:0 0 10px;font-size:14px;letter-spacing:.14em;text-transform:uppercase;
+  }
+  .col-line{background:var(--line-bg);}
+  .col-line h3{color:var(--line);}
+  .col-net{background:var(--net-bg);}
+  .col-net h3{color:var(--net);}
+  .col ul{list-style:none;margin:0;padding:0;}
+  .col li{
+    display:flex;justify-content:space-between;gap:12px;
+    padding:8px 0;font-size:14px;
+    border-bottom:1px dashed rgba(0,0,0,.08);
+  }
+  .col li:last-child{border-bottom:none;}
+  .col li b{font-weight:600;}
+  .col li span{color:var(--muted);text-align:right;}
+
+  .divider{position:relative;display:flex;align-items:center;justify-content:center;}
+  .divider::before{
+    content:"";position:absolute;top:8px;bottom:8px;left:50%;width:2px;
+    transform:translateX(-50%);
+    background:repeating-linear-gradient(to bottom,var(--line) 0 6px,transparent 6px 12px);
+    opacity:.35;
+  }
+  .divider span{
+    position:relative;z-index:1;
+    background:var(--paper);border:2px solid var(--net-soft);color:var(--net-soft);
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:13px;letter-spacing:.04em;
+  }
+  .compare-note{
+    margin-top:16px;text-align:center;font-size:14px;color:var(--muted);
+  }
+
+  /* ---------- CHAINS ---------- */
+  .chain-label{
+    font-size:11px;text-transform:uppercase;letter-spacing:.12em;
+    color:var(--muted);margin:4px 0 6px;font-weight:600;
+  }
+  .chain{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px;}
+  .chip{
+    background:var(--line-bg);color:var(--line);
+    border-radius:10px;padding:8px 12px;
+    font-size:13px;font-weight:600;
+  }
+  .chain.net .chip{background:var(--net-bg);color:#14544c;}
+  .chain .arw{color:var(--muted);font-size:15px;}
+
+  /* ---------- NETWORK ---------- */
+  .net-wrap{
+    display:grid;grid-template-columns:1fr 210px;
+    gap:20px;align-items:center;
+  }
+  .net-wrap svg{width:100%;height:auto;}
+
+  /* ---------- SANDY ---------- */
+  .sandy{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .sandy .box{border-radius:12px;padding:14px 16px;font-size:14px;}
+  .sandy .before{background:#F5EFEA;border-left:4px solid var(--net-soft);}
+  .sandy .after{background:var(--net-bg);border-left:4px solid var(--net);}
+  .sandy h4{
+    margin:0 0 8px;font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted);font-weight:600;
+  }
+  .sandy p{margin:0 0 6px;font-size:14px;}
+
+  /* ---------- RISKS ---------- */
+  .risks{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;}
+  .risks ul{margin:0;padding:0;list-style:none;}
+  .risks li{
+    padding:6px 0 6px 24px;position:relative;font-size:14px;
+  }
+  .risks li::before{
+    content:"!";position:absolute;left:0;top:7px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--net-soft);color:#fff;
+    font-size:11px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mini-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .mini-table th,.mini-table td{
+    text-align:left;padding:8px 10px;
+    border-bottom:1px solid rgba(0,0,0,.08);vertical-align:top;
+  }
+  .mini-table th{
+    font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;
+  }
+
+  /* ---------- TERMS ---------- */
+  .terms{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .terms .card{border-radius:12px;padding:14px 16px;background:#F5F2EC;}
+  .terms .card h4{margin:0 0 6px;font-size:14px;color:var(--line);}
+  .terms .card p{font-size:13px;margin:0;color:var(--muted);}
+  .terms-foot{
+    margin-top:14px;padding:12px 16px;border-radius:12px;
+    background:linear-gradient(90deg,var(--line-bg),var(--net-bg));
+    font-size:13px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;
+  }
+  .terms-foot b{color:var(--line);}
+  .terms-foot span{color:var(--muted);}
+
+  /* ---------- FINAL ---------- */
+  .final{
+    text-align:center;
+    background:linear-gradient(135deg,var(--line),var(--net));
+    color:#fff;padding:36px 24px;
+  }
+  .final h2{color:#fff;font-size:clamp(24px,3.4vw,34px);margin-bottom:10px;}
+  .final p{color:rgba(255,255,255,.88);max-width:620px;margin:0 auto 10px;font-size:15px;}
+  .final .two{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;
+    margin-top:22px;text-align:left;
+  }
+  .final .two div{
+    background:rgba(255,255,255,.14);
+    border-radius:12px;padding:14px 16px;font-size:13px;
+    line-height:1.5;
+  }
+  .final .two b{display:block;margin-bottom:4px;font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;opacity:.8;font-weight:600;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:760px){
+    .poster{padding:24px 14px 48px;}
+    .hero{
+      grid-template-columns:1fr 1fr;
+      grid-template-areas:"left right" "title title";
+      row-gap:8px;
+    }
+    .hero .side{font-size:10px;}
+    .hero .side svg{width:36px;height:36px;}
+    .compare{grid-template-columns:1fr;}
+    .divider{height:40px;}
+    .divider::before{
+      left:8px;right:8px;top:50%;bottom:auto;
+      width:auto;height:2px;transform:none;
+      background:repeating-linear-gradient(to right,var(--line) 0 6px,transparent 6px 12px);
+    }
+    .net-wrap{grid-template-columns:1fr;}
+    .sandy{grid-template-columns:1fr;}
+    .risks{grid-template-columns:1fr;}
+    .terms{grid-template-columns:1fr;}
+    .final .two{grid-template-columns:1fr;}
+    .kody{grid-template-columns:56px 1fr;gap:14px;}
+    .kody .icon{width:56px;height:56px;font-size:24px;}
+  }
+
+  #fs-btn{
+  position:fixed;top:16px;right:16px;z-index:999;
+  width:40px;height:40px;border-radius:50%;
+  border:none;background:rgba(31,58,95,.85);color:#fff;
+  font-size:12px;cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);
+  transition:opacity .2s;
+  }
+  #fs-btn:hover{background:#1F3A5F;}
+  @media print{ #fs-btn{display:none;} }
+
+  .footer {
+    color: var(--line);
+    font-weight: bold;
+  }
+
+  .img-fit{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  border-radius:12px;
+  }
+  .img-frame{
+  border-radius:14px;
+  overflow:hidden;
+  /* background:#E7E7E3; */
+  background: white;
+  }
+  .img-frame img{display:block;width:100%;height:100%;object-fit:cover;}
+</style>
+</head>
+<body>
+<main class="poster">
+  <button id="fs-btn" title="Полный экран" aria-label="Полный экран">[F11]</button>
+  <!-- ===== HERO ===== -->
+  <header class="hero">
+    <div class="side side-left">
+      <div class="img-frame">
+      <img src="resources/book.png"></div>
+      <!--<svg viewBox="0 0 48 48" fill="none" stroke="#1F3A5F" stroke-width="2.5"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8 10h12a6 6 0 0 1 6 6v22a6 6 0 0 0-6-6H8z"/>
+        <path d="M40 10H28a6 6 0 0 0-6 6v22a6 6 0 0 1 6-6h12z"/>
+      </svg>-->
+      <!-- <span>Гутенберг</span> -->
+    </div>
+
+    <div class="title">
+      <h1>Кто кого?</h1>
+      <div class="sub">Одновременность и последовательность<br>как проблема межкультурной коммуникации</div>
+      <div class="q">В. П. Терин</div>
+    </div>
+
+    <div class="side side-right">
+      <!--<svg viewBox="0 0 48 48" fill="none" stroke="#2A9D8F" stroke-width="2.5"
+           stroke-linecap="round" aria-hidden="true">
+        <line x1="24" y1="24" x2="10" y2="10"/>
+        <line x1="24" y1="24" x2="38" y2="10"/>
+        <line x1="24" y1="24" x2="10" y2="38"/>
+        <line x1="24" y1="24" x2="38" y2="38"/>
+        <circle cx="24" cy="24" r="5" fill="#2A9D8F" stroke="none"/>
+        <circle cx="10" cy="10" r="3.5" fill="#2A9D8F" stroke="none"/>
+        <circle cx="38" cy="10" r="3.5" fill="#2A9D8F" stroke="none"/>
+        <circle cx="10" cy="38" r="3.5" fill="#2A9D8F" stroke="none"/>
+        <circle cx="38" cy="38" r="3.5" fill="#2A9D8F" stroke="none"/>
+      </svg>-->
+      <!-- <span>Электроника</span> -->
+      <div class="img-frame">
+      <img src="resources/smart_electronics.png"></div>
+    </div>
+  </header>
+
+  <!-- ===== 1. КОДЫ ===== -->
+  <section>
+    <span class="kicker">Культура - набор кодов</span>
+    <!-- <h2>Культура - набор кодов</h2> -->
+    <div class="kody">
+      <div class="icon">{ }</div>
+      <div>
+        <p>Культура - совокупность форм деятельности и кодов, предписывающих человеку поведение.</p>
+        <p class="muted">Исследователь должен выбрать, с какого кода начать, чтобы в этой связи понимать остальное</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 2. СРАВНЕНИЕ ===== -->
+  <section>
+    <span class="kicker">Режимы</span>
+    <h2>Линия и сеть</h2>
+
+    <div class="compare">
+      <div class="col col-line">
+        <h3>Линия</h3>
+        <ul>
+          <li><b>Носитель</b><span>книга</span></li>
+          <li><b>Чтение</b><span>от начала до конца</span></li>
+          <li><b>Логика</b><span>причина => следствие</span></li>
+          <li><b>Социум</b><span>индивидуализм</span></li>
+          <li><b>Государство</b><span>вертикаль</span></li>
+        </ul>
+      </div>
+
+      <div class="divider"><span>vs</span></div>
+
+      <div class="col col-net">
+        <h3 style="text-align: right;">Сеть</h3>
+        <ul>
+          <li><span>экран</span><b>Носитель</b></li>
+          <li><span>«всё сразу»</span><b>Восприятие</b></li>
+          <li><span>резонанс</span><b>Логика</b></li>
+          <li><span>масса</span><b>Социум</b></li>
+          <li><span>горизонталь</span><b>Связи</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="compare-note">В сознании действуют оба режима, но ведущий - один</p>
+  </section>
+
+  <!-- ===== 3. ГУТЕНБЕРГ ===== -->
+  <section>
+    <span class="kicker line">Технология Гутенберга</span>
+    <h2>Печатный станок -<sup><i>kat</i></sup>- катализатор</h2>
+
+    <div class="chain-label">Социальная цепочка</div>
+    <div class="chain">
+      <span class="chip">Тираж книг</span><span class="arw">→</span>
+      <span class="chip">Общий язык</span><span class="arw">→</span>
+      <span class="chip">Нация</span><span class="arw">→</span>
+      <span class="chip">Национальное государство</span>
+    </div>
+
+    <div class="chain-label">Когнитивная цепочка</div>
+    <div class="chain">
+      <span class="chip">Линейное чтение</span><span class="arw">→</span>
+      <span class="chip">Последовательность</span><span class="arw">→</span>
+      <span class="chip">Самостоятельное мышление</span><span class="arw">→</span>
+      <span class="chip">Индивидуализм</span>
+    </div>
+
+    <p class="muted">Последовательность становится «само собой разумеющейся» нормой восприятия и мышления</p>
+  </section>
+
+  <!-- ===== 4. ЭЛЕКТРОНИКА ===== -->
+  <section>
+    <span class="kicker">Электронные коммуникации</span>
+    <h2>Одновременность связывает всех сразу</h2>
+
+    <div class="net-wrap">
+      <div>
+        <div class="chain net">
+          <span class="chip">Электричество</span><span class="arw">→</span>
+          <span class="chip">Мгновенная связь</span><span class="arw">→</span>
+          <span class="chip">Одновременность</span><span class="arw">→</span>
+          <span class="chip">Горизонтальная централизация</span>
+        </div>
+        <p class="muted">Телеграф, телефон, пресса, радио, ТВ; сообщения понятны всем</p>
+        <p class="muted">Ч. Кули: «первичная группа» - непосредственно общающиеся люди разных культур, находящие общий язык</p>
+      </div>
+
+      <div class="img-frame">
+      <img src="resources/net.png"></div>
+      <!--<svg viewBox="0 0 300 220" aria-hidden="true">
+        <g stroke="#2A9D8F" stroke-width="1.5" opacity=".55">
+          <line x1="150" y1="110" x2="60"  y2="50"/>
+          <line x1="150" y1="110" x2="240" y2="50"/>
+          <line x1="150" y1="110" x2="50"  y2="160"/>
+          <line x1="150" y1="110" x2="250" y2="160"/>
+          <line x1="150" y1="110" x2="150" y2="30"/>
+          <line x1="150" y1="110" x2="150" y2="190"/>
+          <line x1="60"  y1="50"  x2="150" y2="30"/>
+          <line x1="240" y1="50"  x2="150" y2="30"/>
+          <line x1="50"  y1="160" x2="150" y2="190"/>
+          <line x1="250" y1="160" x2="150" y2="190"/>
+        </g>
+        <g fill="#2A9D8F">
+          <circle cx="150" cy="110" r="10"/>
+          <circle cx="150" cy="30"  r="5"/>
+          <circle cx="60"  cy="50"  r="5"/>
+          <circle cx="240" cy="50"  r="5"/>
+          <circle cx="50"  cy="160" r="5"/>
+          <circle cx="250" cy="160" r="5"/>
+          <circle cx="150" cy="190" r="5"/>
+        </g>
+        <circle cx="150" cy="110" r="18" fill="none" stroke="#E76F51" stroke-width="2" opacity=".7"/>
+      </svg>-->
+    </div>
+  </section>
+
+  <!-- ===== 5. КЕЙС ===== -->
+  <section>
+    <span class="kicker accent">Ураган «Сэнди»</span>
+    <h2>Кто взял инициативу</h2>
+
+    <div class="sandy">
+      <div class="box before">
+        <h4>Было</h4>
+        <p>Федеральное агентство по ЧС приостановило работу.</p>
+        <!-- <p class="muted">Вертикальная управленческая культура — пауза.</p> -->
+      </div>
+      <div class="box after">
+        <h4>Стало</h4>
+        <p>Occupy Wall Street через электронные ресурсы запустили «Occupy Sandy».</p>
+        <p class="muted">Волонтёры собрались в сеть и быстро помогли пострадавшим</p>
+      </div>
+    </div>
+
+    <p class="muted" style="margin-top:14px;">
+      Роль государства оттеснена на второй план. Электронный собеседник стал предпочтительной формой межкультурной коммуникации
+    </p>
+  </section>
+
+  <!-- ===== 6. РИСКИ ===== -->
+  <section>
+    <span class="kicker accent">Риски</span>
+    <h2>Что происходит с человеком при примате одновременности</h2>
+
+    <div class="risks">
+      <ul>
+        <li>Падает интерес к культуре чтения.</li>
+        <li>Появляются мозаичные издания: каждое сообщение значимо само по себе.</li>
+        <li>Чтение без умственных усилий ухудшает память и наблюдательность (Ж. Эллюль).</li>
+        <li>Подавляется последовательность и логичность.</li>
+        <li>Усиливается мифологизация происходящего.</li>
+        <!-- <li>С 1980-х — когнитивные технологии распознавания образов.</li> -->
+      </ul>
+
+      <table class="mini-table">
+        <thead>
+          <tr><th>Свойства мифа</th><th>Свойства ТВ</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>«Всё сразу»</td><td>Мозаичность</td></tr>
+          <tr><td>Центр в любой точке</td><td>Резонанс</td></tr>
+          <tr><td>Чувственная наглядность</td><td>Тактильность</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== 7. ТЕРМИНОЛОГИЯ ===== -->
+  <section>
+    <span class="kicker">Терминология</span>
+    <h2>Одно понятие или два?</h2>
+
+    <div class="terms">
+      <div class="card">
+        <h4>Cross-cultural communication</h4>
+        <p>Акцент на причинах, побуждающих преодолевать культурные различия.</p>
+      </div>
+      <div class="card">
+        <h4>Intercultural communication</h4>
+        <p>Акцент на глобальной коммуникации, особенно в организациях.</p>
+      </div>
+    </div>
+
+    <div class="terms-foot">
+      <b>Media ecology</b>
+      <span>Попытка понятийного единства: любой предмет культуры рассматривается по его роли в межкультурной коммуникации.</span>
+    </div>
+  </section>
+
+  <!-- ===== 8. ФИНАЛ ===== -->
+  <section class="final">
+    <h2>Кто кого?</h2>
+    <p>Оба режима действуют в сознании. Ведущим становится тот, который поддерживается господствующей технологией коммуникации.</p>
+
+    <div class="two">
+      <div>
+        <b>Гутенберг</b>
+        последовательность → индивидуализм → вертикальное государство
+      </div>
+      <div>
+        <b>Электроника</b>
+        одновременность → сети → горизонтальные связи
+      </div>
+    </div>
+
+    <p style="margin-top:22px;font-size:13px;opacity:.85;">
+      Технологии меняют не только коммуникацию, но и самого человека
+    </p>
+  </section>
+
+
+  <section class="footer">
+    <p>Выполнил:<br>Козлов Георгий, гр. 913-ПДо</p>
+    <p>Источник:<br>В. П. Терин. Кто кого? Одновременность и последовательность
+как проблема межкультурной коммуникации</p>
+  </section>
+</main>
+
+<script>
+  const btn = document.getElementById('fs-btn');
+  btn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen?.();
+    } else {
+      document.exitFullscreen?.();
+    }
+  });
+</script>
+
+</body>
+</html>
